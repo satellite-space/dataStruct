@@ -22,11 +22,6 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public List<E> initList() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public boolean isEmpty() {
         return size == 0;
     }

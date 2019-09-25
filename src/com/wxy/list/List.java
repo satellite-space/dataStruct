@@ -9,8 +9,6 @@ package com.wxy.list;
  */
 public interface List<E> {
 
-    List initList();
-
     boolean isEmpty();
 
     void clearList();

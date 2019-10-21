@@ -83,4 +83,27 @@ public class StringAlgorithm {
         }
         return next;
     }
+	
+	/** 获取T串每一位对应的位置——优化 */
+    private static int[] getNextVal(String t) {
+        int[] next = new int[t.length()];
+        next[0] = -1;
+        int i = 0; // i表示后一个字符的下标
+        int j = -1; // j表示前一个字符的下标
+        while (i < t.length() - 1) {
+            if (j == -1 || t.charAt(i) == t.charAt(j)) {
+                i++;
+                j++;
+				if (t.charAt(i) != t.charAt(j)) {  // 若当前字符与前一个字符不相同
+					next[i] = j;           // 则将当前的j值赋给数组的i的值
+				} else {
+					next[i] = next[j];     // 相同，则将当前j值回溯到上一个j的下标。
+				}
+                next[i] = j;
+            } else {
+                j = next[j];   // 若字符不匹配，则将当前的下标回溯到前一个j的下标
+            }
+        }
+        return next;
+    }
 }

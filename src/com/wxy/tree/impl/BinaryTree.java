@@ -15,15 +15,50 @@ public class BinaryTree<E> implements Tree<E> {
 
     private BiTNode<E> root;
 
-    public BinaryTree() {}
+    private int index = -1;
 
-    @Override
-    public Tree<E> createTree(Object[] elements, String definition) {
-        BinaryTree<E> tree = new BinaryTree<>();
-        if ("pre".equals(definition)) {
+    public BinaryTree(Object[] elements, String definition) {
+        this.root = createTree(elements, definition);
+    }
 
+    public BiTNode<E> createTree(Object[] elements, String definition) {
+        if ("preOrd".equals(definition)) {
+            // 有序数组
+            root = preCreate(elements);
+        } else if ("preDisOrd".equals(definition)) {
+            // 将一个数组构建成二叉树
+            root = preDisCreate(elements, 0);
         }
-        return tree;
+        // in after省略。实现方法大同小异
+        return root;
+    }
+
+    private BiTNode<E> preDisCreate(Object[] elements, int i) {
+        BiTNode<E> node = null;
+        if (i < elements.length) {
+            node = new BiTNode<>();
+            node.setData((E) elements[i]);
+            node.setlChild(preDisCreate(elements, 2*i+1));
+            node.setrChild(preDisCreate(elements, 2*i+2));
+        }
+        return node;
+    }
+
+    private BiTNode<E> preCreate(Object[] elements) {
+        BiTNode<E> node;
+        index++;
+        if (index < elements.length) {
+            if ("#".equals(elements[index])) {
+                return null;
+            } else {
+                node = new BiTNode<>();
+                node.setData((E) elements[index]);
+                node.setlChild(preCreate(elements));
+                node.setrChild(preCreate(elements));
+                return node;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -42,7 +77,7 @@ public class BinaryTree<E> implements Tree<E> {
     }
 
     @Override
-    public TreeNode<E> getRoot() {
+    public BiTNode<E> getRoot() {
         return this.root;
     }
 
@@ -50,8 +85,8 @@ public class BinaryTree<E> implements Tree<E> {
      *  前序遍历(目前只输出结点数据)
      */
     public void preOrder(BiTNode node) {
-        while (null != node) {
-            System.out.println(node.getData());
+        if (null != node) {
+            System.out.print(node.getData() + ", ");
             preOrder(node.getlChild());
             preOrder(node.getrChild());
         }
@@ -61,9 +96,9 @@ public class BinaryTree<E> implements Tree<E> {
      *  中序遍历(目前只输出结点数据)
      */
     public void inOrder(BiTNode node) {
-        while (null != node) {
-            System.out.println(node.getData());
+        if (null != node) {
             inOrder(node.getlChild());
+            System.out.print(node.getData());
             inOrder(node.getrChild());
         }
     }
@@ -72,10 +107,10 @@ public class BinaryTree<E> implements Tree<E> {
      *  前序遍历(目前只输出结点数据)
      */
     public void afterOrder(BiTNode node) {
-        while (null != node) {
-            System.out.println(node.getData());
+        if (null != node) {
             afterOrder(node.getlChild());
             afterOrder(node.getrChild());
+            System.out.print(node.getData());
         }
     }
 }

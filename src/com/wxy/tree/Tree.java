@@ -8,8 +8,8 @@ package com.wxy.tree;
  * @create 2019/10/30 21:39
  */
 public interface Tree<E> {
-    /** 按照规定的定义去构造树 */
-    Tree<E> createTree(Object[] elements, String definition);
+    /** 按照规定的定义去构造树，由实现类的构造方法去实现 */
+    // Tree<E> createTree(Object[] elements, String definition);
 
     /** 若当前树存在，则清空树 */
     void clearTree();

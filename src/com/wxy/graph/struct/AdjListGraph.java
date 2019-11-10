@@ -1,5 +1,8 @@
 package com.wxy.graph.struct;
 
+import com.wxy.stack.Queue;
+import com.wxy.stack.impl.ArrayQueue;
+
 import java.util.Scanner;
 
 /**
@@ -21,17 +24,23 @@ public class AdjListGraph {
     }
 
     private class VertexNode {
-        String data;
+        Object data;
         EdgeNode firstedge;
     }
 
     private VertexNode[] adjList;
     private int numVertexes, numEdges;
 
+    private boolean[] visited;
+    private Queue queue;
+
     public AdjListGraph(int numVertexes, int numEdges) {
         this.numVertexes = numVertexes;
         this.numEdges = numEdges;
         this.adjList = new VertexNode[numVertexes];
+        for (int i = 0; i < numVertexes; i++) {
+            adjList[i] = new VertexNode();
+        }
         createNetwork();
     }
 
@@ -57,6 +66,55 @@ public class AdjListGraph {
             node.adjvex = i;
             node.next = adjList[j].firstedge;
             adjList[j].firstedge = node;
+        }
+    }
+
+    public void traverseOfDFS() {
+        visited = new boolean[numVertexes];
+        for (int i = 0; i < numVertexes; i++) {
+            if (!visited[i]) {
+                searchDFS(this, i);
+            }
+        }
+    }
+
+    private void searchDFS(AdjListGraph graph, int i) {
+        visited[i] = true;
+        System.out.print(graph.adjList[i].data + "\t");
+        EdgeNode node = graph.adjList[i].firstedge;
+        while (null != node) {
+            if (!visited[node.adjvex]) {
+                searchDFS(graph, node.adjvex);
+            }
+            node = node.next;
+        }
+    }
+
+    public void traverseOfHFS() {
+        queue = new ArrayQueue(this.numVertexes);
+        visited = new boolean[this.numVertexes];
+        searchHFS(this);
+    }
+
+    private void searchHFS(AdjListGraph graph) {
+        for (int i = 0; i < graph.numVertexes; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                System.out.print(graph.adjList[i].data + "\t");
+                queue.add(graph.adjList[i]);
+                while (!queue.isEmpty()) {
+                    queue.remove();
+                    EdgeNode node = graph.adjList[i].firstedge;
+                    while (null != node) {
+                        if (!visited[node.adjvex]) {
+                            visited[node.adjvex] = true;
+                            System.out.print(graph.adjList[node.adjvex].data + "\t");
+                            queue.add(graph.adjList[node.adjvex]);
+                        }
+                        node = node.next;
+                    }
+                }
+            }
         }
     }
 }

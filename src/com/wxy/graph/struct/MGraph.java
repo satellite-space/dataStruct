@@ -2,6 +2,8 @@ package com.wxy.graph.struct;
 
 import com.wxy.graph.Graph;
 import com.wxy.graph.Vertex;
+import com.wxy.stack.Queue;
+import com.wxy.stack.impl.ArrayQueue;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -18,6 +20,9 @@ public class MGraph<E> implements Graph<E> {
     private Object[] vexs;
     private int[][] arc;
     private int numVertex, numEdge;
+
+    private boolean[] visited;
+    private Queue queue;
 
     public MGraph(Object[] vexs, int numEdge) {
         this.numVertex = vexs.length;
@@ -142,11 +147,48 @@ public class MGraph<E> implements Graph<E> {
 
     @Override
     public void traverseOfDFS() {
+        visited = new boolean[numVertex];
+        for (int i = 0; i < numVertex; i++) {
+            if (!visited[i]) {
+                searchDFS(this, i);
+            }
+        }
+    }
 
+    private void searchDFS(MGraph<E> graph, int i) {
+        visited[i] = true;
+        System.out.print(graph.vexs[i] + "\t");
+        for (int j = 0; j < graph.numVertex; j++) {
+            if (graph.arc[i][j] == 1 && !visited[j]) {
+                searchDFS(graph, j);
+            }
+        }
     }
 
     @Override
     public void traverseOfHFS() {
+        queue = new ArrayQueue(this.numVertex);
+        visited = new boolean[this.numVertex];
+        searchHFS(this);
+    }
 
+    private void searchHFS(MGraph<E> graph) {
+        for (int i = 0; i < this.numVertex; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                System.out.print(graph.vexs[i] + "\t");
+                queue.add(graph.vexs[i]);
+                while (!queue.isEmpty()) {
+                    queue.remove();
+                    for (int j = 0; j < graph.numVertex; j++) {
+                        if (graph.arc[i][j] == 1 && !visited[j]) {
+                            visited[j] = true;
+                            System.out.print(graph.vexs[j] + "\t");
+                            queue.add(graph.vexs[j]);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

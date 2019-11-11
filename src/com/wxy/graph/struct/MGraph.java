@@ -2,6 +2,7 @@ package com.wxy.graph.struct;
 
 import com.wxy.graph.Graph;
 import com.wxy.graph.Vertex;
+import com.wxy.graph.algorithm.Prim;
 import com.wxy.stack.Queue;
 import com.wxy.stack.impl.ArrayQueue;
 
@@ -18,8 +19,8 @@ import java.util.Scanner;
 public class MGraph<E> implements Graph<E> {
 
     private Object[] vexs;
-    private int[][] arc;
-    private int numVertex, numEdge;
+    public int[][] arc;
+    public int numVertex, numEdge;
 
     private boolean[] visited;
     private Queue queue;
@@ -82,6 +83,10 @@ public class MGraph<E> implements Graph<E> {
             int j = scan.nextInt();
             arc[i][j] = arc[j][i] = 1;
         }
+    }
+
+    public void prim() {
+        Prim.miniSpanTree_Prim(this);
     }
 
     @Override

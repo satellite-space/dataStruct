@@ -3,6 +3,7 @@ package com.wxy.graph;
 import com.wxy.graph.struct.AdjListGraph;
 import com.wxy.graph.struct.KruGraph;
 import com.wxy.graph.struct.MGraph;
+import com.wxy.graph.struct.TopoAdjListGraph;
 
 /**
  * <p>文件描述</p>
@@ -16,7 +17,13 @@ public class Main {
         // testMGraph();
         // testAdjListGraph();
         // testPrim();
-        testKruskal();
+        // testKruskal();
+        testTopo();
+    }
+
+    private static void testTopo() {
+        TopoAdjListGraph graph = new TopoAdjListGraph(10, 13);
+        graph.topo();
     }
 
     private static void testKruskal() {

@@ -1,7 +1,6 @@
 package com.wxy.tree.impl;
 
 import com.wxy.tree.Tree;
-import com.wxy.tree.TreeNode;
 import com.wxy.tree.node.BiTNode;
 
 /**

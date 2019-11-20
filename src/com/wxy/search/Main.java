@@ -1,5 +1,6 @@
 package com.wxy.search;
 
+import com.wxy.search.tree.impl.AVLTree;
 import com.wxy.search.tree.impl.BinarySortTree;
 
 /**
@@ -11,7 +12,16 @@ import com.wxy.search.tree.impl.BinarySortTree;
  */
 public class Main {
     public static void main(String[] args) {
-        testBinaryTree();
+        // testBinaryTree();
+        testAVLTree();
+    }
+
+    private static void testAVLTree() {
+        int[] a = {3, 2, 1, 4, 5, 6, 7, 10, 9, 8};
+        AVLTree tree = new AVLTree();
+        tree.insertAVL(a);
+//        tree.inOrder();
+        tree.preOrder();
     }
 
     private static void testBinaryTree() {

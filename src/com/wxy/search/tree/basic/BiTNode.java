@@ -1,7 +1,5 @@
 package com.wxy.search.tree.basic;
 
-import com.wxy.tree.TreeNode;
-
 /**
  * <p>二叉树(Binary Tree)——二叉链表结构</p>
  *
@@ -13,11 +11,19 @@ public class BiTNode {
 
     private int data;
 
+    private int bf;
+
     private BiTNode lChild;
 
     private BiTNode rChild;
 
     public BiTNode(){}
+
+    public BiTNode(int data) {
+        this.bf = 0;
+        this.lChild = this.rChild = null;
+        this.data = data;
+    }
 
     public BiTNode(BiTNode lChild, int data, BiTNode rChild) {
         this.lChild = lChild;
@@ -31,6 +37,14 @@ public class BiTNode {
 
     public int getData() {
         return data;
+    }
+
+    public int getBf() {
+        return bf;
+    }
+
+    public void setBf(int bf) {
+        this.bf = bf;
     }
 
     public void setlChild(BiTNode lChild) {

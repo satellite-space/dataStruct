@@ -91,7 +91,7 @@ public class BinarySortTree {
         } else {
             s = node;
             p = node.getlChild();
-            while (null != p) {
+            while (null != p.getrChild()) {
                 s = p;
                 p = p.getrChild();
             }

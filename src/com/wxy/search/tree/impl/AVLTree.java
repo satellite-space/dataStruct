@@ -19,10 +19,7 @@ public class AVLTree {
     private BiTNode root;
     private boolean taller;
 
-    public AVLTree() {
-        this.root = new BiTNode();
-        this.root.setData(MAX);
-    }
+    public AVLTree() {}
 
     public void clearTree() {
         root = null;
@@ -43,6 +40,7 @@ public class AVLTree {
     /**
      * 将以node为根结点的树右旋
      * @param node 根结点
+     * @return 右旋处理之后树的根结点
      */
     private BiTNode r_Rotate(BiTNode node) {
         BiTNode lTree = node.getlChild();
@@ -54,6 +52,7 @@ public class AVLTree {
     /**
      * 将以node为根结点的树左旋
      * @param node 根结点
+     * @return 左旋处理之后树的根结点
      */
     private BiTNode l_Rotate(BiTNode node) {
         BiTNode rTree = node.getrChild();
@@ -65,6 +64,7 @@ public class AVLTree {
     /**
      * 对以node为根结点的最小不平衡树进行左平衡处理
      * @param node 根结点
+     * @return 左平衡处理之后树的根结点
      */
     private BiTNode leftBalance(BiTNode node) {
         BiTNode lTree = node.getlChild();
@@ -102,6 +102,7 @@ public class AVLTree {
     /**
      * 对以node为根结点的最小不平衡树进行右平衡处理
      * @param node 根结点
+     * @return 右平衡处理之后树的根结点
      */
     private BiTNode rightBalance(BiTNode node) {
         BiTNode rTree = node.getrChild();
@@ -152,14 +153,11 @@ public class AVLTree {
      * 在平衡二叉树中插入数据
      * @param tree 根结点
      * @param key 待插入数据
-     * @return 插入结果
+     * @return 插入数据之后树的根结点
      */
     private BiTNode insertAVL(BiTNode tree, int key) {
         if (null == tree) {
             tree = new BiTNode(key);
-            taller = true;
-        } else if (MAX == tree.getData()) {
-            tree.setData(key);
             taller = true;
         } else {
             if (key == tree.getData()) {
@@ -212,6 +210,51 @@ public class AVLTree {
             }
         }
         return tree;
+    }
+
+    public BiTNode deleteAVL(int key) {
+        return deleteAVL(root, key);
+    }
+
+    private BiTNode deleteAVL(BiTNode root, int key) {
+        if (null == root) {
+            return null;
+        }
+
+        if (key == root.getData()) {
+            if (root.getlChild() != null && root.getrChild() != null) {
+                BiTNode node, tmp;
+                node = root;
+                tmp = root.getlChild();
+                while (null != tmp.getrChild()) {
+                    node = tmp;
+                    tmp = tmp.getrChild();
+                }
+                root.setData(tmp.getData());
+                if (node != root) {
+                    node.setrChild(tmp.getlChild());
+                } else {
+                    node.setlChild(tmp.getlChild());
+                }
+            } else {
+                root = (root.getlChild() != null) ? root.getlChild() : root.getrChild();
+            }
+        } else if (key < root.getData()) {
+            root.setlChild(deleteAVL(root.getlChild(), key));
+            int lh = (root.getlChild() != null) ? root.getlChild().getHeight() : 0;
+            int rh = (root.getrChild() != null) ? root.getrChild().getHeight() : 0;
+            if (rh - lh == 2) {
+                root = rightBalance(root);
+            }
+        } else {
+            root.setrChild(deleteAVL(root.getrChild(), key));
+            int lh = (root.getlChild() != null) ? root.getlChild().getHeight() : 0;
+            int rh = (root.getrChild() != null) ? root.getrChild().getHeight() : 0;
+            if (lh - rh == 2) {
+                root = leftBalance(root);
+            }
+        }
+        return root;
     }
 
     public void inOrder() {

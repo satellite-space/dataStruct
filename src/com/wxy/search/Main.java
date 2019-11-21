@@ -22,6 +22,9 @@ public class Main {
         tree.insertAVL(a);
 //        tree.inOrder();
         tree.preOrder();
+        System.out.println();
+        tree.deleteAVL(7);
+        tree.preOrder();
     }
 
     private static void testBinaryTree() {
